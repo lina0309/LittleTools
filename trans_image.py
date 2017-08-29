@@ -13,7 +13,6 @@ import os
 #         jpg = splitext(png)[0]+"." + type
 #         im.save(jpg)
 #         print jpg 
-
 def del_files(path):
     for root , dirs, files in os.walk(path):
         for name in files:
