@@ -5,22 +5,25 @@ import numpy as np
 import os
 # dict = {}
 number=1
+namelist=[]
 for filecolor in glob.glob("/data/xiaobing.wang/pingjun.li/LiNa/PoseEstimation/seg_depth/upper_body_color_1/*.jpeg"):
+    a,b = os.path.split(filecolor)
+    namelist.append(b)
 
-for files in glob.glob("/data/xiaobing.wang/pingjun.li/LiNa/PoseEstimation/seg_depth/upper_body_depth_1/*.jpeg"):
-    img_all = Image.open(files)
+for item in namelist:
+    img_all = Image.open('/data/xiaobing.wang/pingjun.li/LiNa/PoseEstimation/seg_depth/upper_body_depth_1/'+item)
     # r=img.crop((640,0,1280,480))
     # l=img.crop((0,0,256,256))
     #r = img_all.crop((256, 0, 512, 256))
     #r_resize=r.resize((512,256),Image.ANTIALIAS)
     img = array(img_all)
-    img_color_all = Image.open(filecolor)
+    img_color_all = Image.open('/data/xiaobing.wang/pingjun.li/LiNa/PoseEstimation/seg_depth/upper_body_color_1/'+item)
     imgcolor = array(img_color_all)
     print(number)
     number=1+number
     for i in range(480):
         for j in range(640):
-            if (np.abs(img[i, j, 0] <= 1)):
+            if (np.abs(img[i, j, 0] == 0)):
                 imgcolor[i, j, 0] = 255
                 imgcolor[i, j, 1] = 255
                 imgcolor[i, j, 2] = 255
@@ -31,5 +34,5 @@ for files in glob.glob("/data/xiaobing.wang/pingjun.li/LiNa/PoseEstimation/seg_d
 
 
     new_img=Image.fromarray(imgcolor,"RGB")
-    p,n=os.path.split(files)
+    p,n=os.path.split('/data/xiaobing.wang/pingjun.li/LiNa/PoseEstimation/seg_depth/upper_body_color_1/'+item)
     new_img.save("/data/xiaobing.wang/pingjun.li/LiNa/PoseEstimation/seg_depth/upper_body_seg_1/"+n)
